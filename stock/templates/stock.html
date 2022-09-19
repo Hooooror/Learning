@@ -1,15 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Логотип</th>
-                <th>Тикер</th>
-                <th>Компания</th>
-                <th>Последняя цена</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div>
+        Акции {{ stock.name }} ({{ stock.ticker }}) <img src="{{ MEDIA_URL }}/{{ stock.logo }}" width="40" />
+    </div>
+    <div>
+        <form method="POST" action="{% url 'stock:buy' stock.pk %}">
+            {% csrf_token %}
+            {{ form }}
+            <button>Купить</button>
+        </form>
+    </div>
+    <div>
+        <a href="{% url 'stock:list' %}">Назад к списку</a>
+    </div>
+{% endblock %}
+
+<tbody>
 {% for stock in stocks %}
     <tr>
         <td>
@@ -24,6 +30,3 @@
     </tr>
 {% endfor %}
 </tbody>
-
-    </table>
-{% endblock %}
